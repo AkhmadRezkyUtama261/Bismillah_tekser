@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Sewa Kamera</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="container mt-4">
+
+<h3>Pencatatan Penyewaan Kamera</h3>
+
+<form method="POST" action="/add">
+  <input name="nama" class="form-control mb-2" placeholder="Nama Penyewa" required>
+  <input name="merk" class="form-control mb-2" placeholder="Merk Kamera" required>
+  <input name="seri" class="form-control mb-2" placeholder="Seri Kamera" required>
+  <input type="date" name="ambil" class="form-control mb-2" required>
+  <input type="date" name="kembali" class="form-control mb-2" required>
+  <button class="btn btn-primary">Simpan</button>
+</form>
+
+<table class="table table-bordered mt-4">
+<tr>
+  <th>Nama</th>
+  <th>Kamera</th>
+  <th>Ambil</th>
+  <th>Kembali</th>
+  <th>Aksi</th>
+</tr>
+
+<% data.forEach(d => { %>
+<tr>
+  <td><%= d.nama_penyewa %></td>
+  <td><%= d.merk_kamera %> - <%= d.seri_kamera %></td>
+  <td><%= d.tanggal_pengambilan %></td>
+  <td><%= d.tanggal_pengembalian %></td>
+  <td>
+    <a href="/delete/<%= d.id %>" class="btn btn-danger btn-sm">Hapus</a>
+  </td>
+</tr>
+<% }) %>
+</table>
+
+<%- include("partials/footer") %>
+
+</body>
+</html>
