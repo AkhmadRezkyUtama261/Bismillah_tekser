@@ -11,9 +11,10 @@ services:
       MYSQL_USER: ${DB_USER}
       MYSQL_PASSWORD: ${DB_PASS}
       MYSQL_ROOT_PASSWORD: rootpassword
-    # volumes
-    # Network
-  
+    volumes:
+      - db_data:/var/lib/mysql
+    networks:
+      - app_network
 
   # --- 2. APP SERVICE ---
   app_service:
@@ -30,7 +31,8 @@ services:
       - APP_PORT=3000
     depends_on:
       - db_service
-    # Network
+    networks:
+      - app_network
 
   # --- 3. NGINX SERVICE ---
   nginx_service:
@@ -41,9 +43,16 @@ services:
       - "${APP_PORT}:80"
     depends_on:
       - app_service
-    # Network
-    # volumes
+    volumes:
+      - ./nginx/default.conf:/etc/nginx/conf.d/default.conf
+    networks:
+      - app_network
 
-#--- VOLUMES AND NETWORKS ---
-# tambahkan bagian volumes dan networks di sini
+# --- VOLUMES ---
+volumes:
+  db_data:
 
+# --- NETWORKS ---
+networks:
+  app_network:
+    driver: bridge
